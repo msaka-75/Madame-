@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Édition Spéciale • Madame ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0c0a09;
+      --paper: #1c1917;
+      --gold: #d4af37;
+      --gold-light: #fde68a;
+      --text: #fafaf9;
+      --muted: #a8a29e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #292524 0%, var(--bg) 100%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .magazine-cover {
+      background: var(--paper);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      padding: 28px 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Bordure intérieure dorée */
+    .magazine-cover::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    /* En-tête Journal / Magazine */
+    .masthead {
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .masthead-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* Badge Erratum / Flash */
+    .flash-banner {
+      background: rgba(212, 175, 55, 0.12);
+      border-left: 3px solid var(--gold);
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: var(--gold-light);
+    }
+
+    .flash-banner strong {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Titre principal */
+    .headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .headline span {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .lead-text {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #d6d3d1;
+      margin-bottom: 22px;
+    }
+
+    /* Encadré "Motifs du retard" */
+    .excuse-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .excuse-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .excuse-list {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .excuse-list li {
+      margin-bottom: 5px;
+    }
+
+    /* Bouton principal */
+    .cta-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #d4af37, #b48a1e);
+      color: #0c0a09;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Modale Éditorial */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(12, 10, 9, 0.88);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background: #1c1917;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      padding: 32px 26px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      animation: fadeScale 0.35s ease-out;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    @keyframes fadeScale {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .letter-text {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #e7e5e4;
+      text-align: left;
+      margin-bottom: 22px;
+    }
+
+    .letter-text p {
+      margin-bottom: 12px;
+    }
+
+    /* Rose surprise après 2s */
+    .surprise-rose {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin: 14px 0 20px;
+      animation: bloom 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .surprise-rose span {
+      font-size: 3rem;
+      filter: drop-shadow(0 0 15px rgba(225, 29, 72, 0.6));
+    }
+
+    .surprise-rose small {
+      color: var(--gold-light);
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    @keyframes bloom {
+      0% { transform: scale(0.2); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .close-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 11px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .close-btn:hover {
+      background: var(--gold);
+      color: #0c0a09;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="magazine-cover">
+    <div class="masthead">
+      <div class="masthead-title">MADAME</div>
+      <div class="masthead-meta">
+        <span>Édition Spéciale Rattrapage</span>
+        <span>N° 13 • Nov. 2026</span>
+      </div>
+    </div>
+
+    <div class="flash-banner">
+      <strong>Erratum Officiel :</strong> Suite à un bug système dans ma tête hier, la célébration du 13 novembre est officiellement prolongée aujourd'hui.
+    </div>
+
+    <h1 class="headline">
+      Joyeux anniversaire en retard à <span>Madame</span> ✨
+    </h1>
+
+    <p class="lead-text">
+      J'avais complètement la tête ailleurs hier et j'ai zappé la date du 13… Aucune excuse valable, à part que les meilleures célébrations méritent une édition spéciale rien que pour elles.
+    </p>
+
+    <div class="excuse-box">
+      <div class="excuse-title">Rapport d'incident du 13 novembre</div>
+      <ul class="excuse-list">
+        <li>• <strong>Statut :</strong> Cerveau déconnecté, oubli total du calendrier</li>
+        <li>• <strong>Gravité :</strong> Impardonnable (mais rattrapable)</li>
+        <li>• <strong>Mesure corrective :</strong> Cette page codée spécialement pour toi</li>
+      </ul>
+    </div>
+
+    <button class="cta-btn" onclick="openEditorial()">
+      Ouvrir le message de rattrapage 🥂
+    </button>
+  </div>
+
+  <!-- Modale Message -->
+  <div class="modal" id="editorialModal">
+    <div class="modal-content">
+      <h2>Longue et belle vie à toi Madame 👑✨</h2>
+
+      <div class="letter-text">
+        <p>Vraiment désolé pour hier Nafy, j'avais complètement la tête ailleurs et ça m'est sorti de l'esprit alors que c'était ton jour.</p>
+        
+        <p>Tu me connais, je ne pouvais pas juste t'envoyer un simple « bon anniversaire en retard » par message. Il fallait que je marque le coup à ma manière pour me faire pardonner.</p>
+        
+        <p>J'espère que tu as passé un super 13 novembre et que tu as bien profité. Je te souhaite le meilleur, la santé, la réussite et tout le bonheur que tu mérites Madame ❤️.</p>
+      </div>
+
+      <div class="surprise-rose" id="roseBox">
+        <span>🌹</span>
+        <small>Pour me faire pardonner le retard</small>
+      </div>
+
+      <button class="close-btn" onclick="closeEditorial()">Accepter les excuses & fermer ✨</button>
+    </div>
+  </div>
+
+  <script>
+    let timer = null;
+
+    function openEditorial() {
+      document.getElementById('editorialModal').style.display = 'flex';
+
+      confetti({
+        particleCount: 80,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#d4af37', '#fde68a', '#ffffff']
+      });
+
+      const rose = document.getElementById('roseBox');
+      rose.style.display = 'none';
+
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        rose.style.display = 'flex';
+        confetti({
+          particleCount: 70,
+          spread: 80,
+          origin: { y: 0.55 },
+          colors: ['#e11d48', '#d4af37', '#fb7185']
+        });
+      }, 2000);
+    }
+
+    function closeEditorial() {
+      document.getElementById('editorialModal').style.display = 'none';
+      clearTimeout(timer);
+    }
+  </script>
+</body>
+</html>
