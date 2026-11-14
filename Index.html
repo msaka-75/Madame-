@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Édition Spéciale • Madame ✨</title>
+  <title>Archive du 13 • Spécial Madame ✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
       --bg: #0c0a09;
-      --paper: #1c1917;
+      --card: #1c1917;
       --gold: #d4af37;
       --gold-light: #fde68a;
       --text: #fafaf9;
       --muted: #a8a29e;
+      --green: #10b981;
     }
 
     * {
@@ -37,122 +38,113 @@
       color: var(--text);
     }
 
-    .magazine-cover {
-      background: var(--paper);
+    .package-card {
+      background: var(--card);
       border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 16px;
+      border-radius: 20px;
       max-width: 440px;
       width: 100%;
       padding: 28px 24px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
       position: relative;
-      overflow: hidden;
     }
 
-    /* Bordure intérieure dorée */
-    .magazine-cover::before {
-      content: '';
-      position: absolute;
-      inset: 10px;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      border-radius: 10px;
-      pointer-events: none;
-    }
-
-    /* En-tête Journal / Magazine */
-    .masthead {
-      text-align: center;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-      padding-bottom: 14px;
-      margin-bottom: 18px;
-    }
-
-    .masthead-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: var(--gold);
-      text-transform: uppercase;
-      line-height: 1;
-    }
-
-    .masthead-meta {
+    /* En-tête Statut */
+    .status-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-
-    /* Badge Erratum / Flash */
-    .flash-banner {
-      background: rgba(212, 175, 55, 0.12);
-      border-left: 3px solid var(--gold);
-      padding: 10px 14px;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      padding-bottom: 14px;
       margin-bottom: 20px;
-      font-size: 0.82rem;
-      color: var(--gold-light);
     }
 
-    .flash-banner strong {
+    .ref-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .badge-ready {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    /* Titre principal */
-    .headline {
+    /* Titre */
+    .title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.85rem;
-      line-height: 1.2;
-      margin-bottom: 14px;
+      font-size: 2rem;
+      line-height: 1.15;
+      margin-bottom: 12px;
       color: #fff;
     }
 
-    .headline span {
+    .title span {
       font-style: italic;
       color: var(--gold);
     }
 
-    .lead-text {
+    .intro {
       font-size: 0.92rem;
-      line-height: 1.65;
+      line-height: 1.6;
       color: #d6d3d1;
       margin-bottom: 22px;
     }
 
-    /* Encadré "Motifs du retard" */
-    .excuse-box {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 12px;
-      padding: 14px 16px;
+    /* Historique des logs (Preuve que c'était prêt) */
+    .timeline-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 14px;
+      padding: 16px;
       margin-bottom: 24px;
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .excuse-title {
+    .timeline-title {
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       color: var(--gold);
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
-    .excuse-list {
-      list-style: none;
-      font-size: 0.85rem;
-      color: var(--muted);
+    .log-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.84rem;
     }
 
-    .excuse-list li {
-      margin-bottom: 5px;
+    .log-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .log-time {
+      font-family: 'Space Mono', monospace;
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      min-width: 78px;
+      padding-top: 2px;
+    }
+
+    .log-desc {
+      color: #d6d3d1;
+    }
+
+    .log-desc strong {
+      color: #fff;
     }
 
     /* Bouton principal */
-    .cta-btn {
+    .open-btn {
       width: 100%;
       background: linear-gradient(135deg, #d4af37, #b48a1e);
       color: #0c0a09;
@@ -166,12 +158,12 @@
       box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
     }
 
-    .cta-btn:hover {
+    .open-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
     }
 
-    /* Modale Éditorial */
+    /* Modale */
     .modal {
       display: none;
       position: fixed;
@@ -192,18 +184,26 @@
       max-width: 450px;
       width: 100%;
       text-align: center;
-      animation: fadeScale 0.35s ease-out;
+      animation: popIn 0.35s ease-out;
       box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
     }
 
-    @keyframes fadeScale {
+    @keyframes popIn {
       from { transform: scale(0.9); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
+    .modal-date-stamp {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
     .modal h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
+      font-size: 1.75rem;
       color: var(--gold);
       margin-bottom: 16px;
     }
@@ -265,68 +265,69 @@
 </head>
 <body>
 
-  <div class="magazine-cover">
-    <div class="masthead">
-      <div class="masthead-title">MADAME</div>
-      <div class="masthead-meta">
-        <span>Édition Spéciale Rattrapage</span>
-        <span>N° 13 • Nov. 2026</span>
+  <div class="package-card">
+    <div class="status-header">
+      <span class="ref-code">ARCHIVE #13-11-2026</span>
+      <span class="badge-ready">Prêt d'avance</span>
+    </div>
+
+    <h1 class="title">
+      Déjà prêt pour le 13, juste <span>oublié d'appuyer sur Envoyer</span> 😅
+    </h1>
+
+    <p class="intro">
+      Preuve à l'appui : j'avais bien préparé ton truc à l'avance pour ton anniversaire Madame, mais avec la tête ailleurs, le lien est resté coincé dans mes brouillons…
+    </p>
+
+    <div class="timeline-box">
+      <div class="timeline-title">Historique du fichier</div>
+      <div class="log-item">
+        <span class="log-time">12 Nov.</span>
+        <span class="log-desc"><strong>Création terminée :</strong> Page codée et prête pour Madame.</span>
+      </div>
+      <div class="log-item">
+        <span class="log-time">13 Nov.</span>
+        <span class="log-desc"><strong>Blocage humain :</strong> Tête ailleurs, envoi resté en attente.</span>
+      </div>
+      <div class="log-item">
+        <span class="log-time">Aujourd'hui</span>
+        <span class="log-desc"><strong>Déblocage :</strong> Livraison officielle à Nafy ✨</span>
       </div>
     </div>
 
-    <div class="flash-banner">
-      <strong>Erratum Officiel :</strong> Suite à un bug système dans ma tête hier, la célébration du 13 novembre est officiellement prolongée aujourd'hui.
-    </div>
-
-    <h1 class="headline">
-      Joyeux anniversaire en retard à <span>Madame</span> ✨
-    </h1>
-
-    <p class="lead-text">
-      J'avais complètement la tête ailleurs hier et j'ai zappé la date du 13… Aucune excuse valable, à part que les meilleures célébrations méritent une édition spéciale rien que pour elles.
-    </p>
-
-    <div class="excuse-box">
-      <div class="excuse-title">Rapport d'incident du 13 novembre</div>
-      <ul class="excuse-list">
-        <li>• <strong>Statut :</strong> Cerveau déconnecté, oubli total du calendrier</li>
-        <li>• <strong>Gravité :</strong> Impardonnable (mais rattrapable)</li>
-        <li>• <strong>Mesure corrective :</strong> Cette page codée spécialement pour toi</li>
-      </ul>
-    </div>
-
-    <button class="cta-btn" onclick="openEditorial()">
-      Ouvrir le message de rattrapage 🥂
+    <button class="open-btn" onclick="openMessage()">
+      Déverrouiller ce qui était prévu pour le 13 🔓
     </button>
   </div>
 
   <!-- Modale Message -->
-  <div class="modal" id="editorialModal">
+  <div class="modal" id="messageModal">
     <div class="modal-content">
-      <h2>Longue et belle vie à toi Madame 👑✨</h2>
+      <div class="modal-date-stamp">Rédigé pour le 13 Novembre • Pour Madame</div>
+      <h2>Joyeux anniversaire Madame 👑✨</h2>
 
       <div class="letter-text">
-        <p>Vraiment désolé pour hier Nafy, j'avais complètement la tête ailleurs et ça m'est sorti de l'esprit alors que c'était ton jour.</p>
+        <p>Comme tu peux le voir, j'avais déjà tout préparé à l'avance pour ton anniversaire Nafy… mais j'avais tellement la tête ailleurs que j'ai complètement zappé de t'envoyer le lien le jour J.</p>
         
-        <p>Tu me connais, je ne pouvais pas juste t'envoyer un simple « bon anniversaire en retard » par message. Il fallait que je marque le coup à ma manière pour me faire pardonner.</p>
+        <p>Tu me connais, pas question de te souhaiter ça à l'arrache. Tout était déjà prêt dans les temps, il ne manquait plus que le clic final.</p>
         
-        <p>J'espère que tu as passé un super 13 novembre et que tu as bien profité. Je te souhaite le meilleur, la santé, la réussite et tout le bonheur que tu mérites Madame ❤️.</p>
+        <p>J'espère que tu as passé un magnifique 13 novembre et que tu as bien profité. Longue et belle vie à toi Madame, je te souhaite le meilleur, la santé, la réussite et plein de bonheur ❤️.</p>
       </div>
 
       <div class="surprise-rose" id="roseBox">
         <span>🌹</span>
-        <small>Pour me faire pardonner le retard</small>
+        <small>Gardée au frais depuis le 13 rien que pour toi</small>
       </div>
 
-      <button class="close-btn" onclick="closeEditorial()">Accepter les excuses & fermer ✨</button>
+      <button class="close-btn" onclick="closeMessage()">Valider la réception & fermer ✨</button>
     </div>
   </div>
 
   <script>
     let timer = null;
 
-    function openEditorial() {
-      document.getElementById('editorialModal').style.display = 'flex';
+    function openMessage() {
+      document.getElementById('messageModal').style.display = 'flex';
 
       confetti({
         particleCount: 80,
@@ -350,8 +351,8 @@
       }, 2000);
     }
 
-    function closeEditorial() {
-      document.getElementById('editorialModal').style.display = 'none';
+    function closeMessage() {
+      document.getElementById('messageModal').style.display = 'none';
       clearTimeout(timer);
     }
   </script>
